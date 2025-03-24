@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
+import { signIn } from "next-auth/react";
 
 const Home: FC = () => {
   return (
@@ -11,18 +12,6 @@ const Home: FC = () => {
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-
-      {/* Header */}
-      <header className="fixed w-full z-50 bg-black/80 backdrop-blur py-5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between">
-          <div className="text-2xl font-semibold tracking-tight">
-            SPOTIFY <span className="bg-gradient-to-r from-green-500 to-green-400 bg-clip-text text-transparent">MAX</span>
-          </div>
-          <button className="bg-gradient-to-r from-green-500 to-green-400 text-black font-semibold py-3 px-6 rounded-full transition-all hover:scale-105 hover:shadow-lg hover:shadow-green-500/30">
-            Connect with Spotify
-          </button>
-        </div>
-      </header>
 
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center bg-radial-at-center from-zinc-900 to-black overflow-hidden">
