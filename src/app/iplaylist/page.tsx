@@ -1,6 +1,6 @@
 "use client";
 
-import type { FC, FormEvent, useState } from 'react';
+import type { FC, FormEvent } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
