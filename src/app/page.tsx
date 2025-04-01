@@ -1,9 +1,20 @@
-import type { FC } from 'react';
+"use client"; // Ensures interactivity works
+
+import React from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import { signIn } from "next-auth/react";
+import AnimatedBackground from './components/AnimatedBackground';
 
-const Home: FC = () => {
+interface ImageProps {
+  src: string;
+  alt: string;
+  layout: "fill" | "fixed" | "intrinsic" | "responsive";
+  objectFit?: "fill" | "contain" | "cover" | "none" | "scale-down";
+  className?: string;
+}
+
+const Home: React.FC = () => {
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden font-sans">
       <Head>
@@ -14,18 +25,26 @@ const Home: FC = () => {
       </Head>
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-radial-at-center from-zinc-900 to-black overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-20 blur-lg transform scale-110">
-          <div className="w-full h-full bg-[url('/api/placeholder/1400/800')] bg-center bg-cover" />
+      <section className="relative h-screen flex items-center justify-center bg-gradient-to-b from-zinc-900 to-black overflow-hidden">
+        {/* Animated Background */}
+        <AnimatedBackground />
+        
+        {/* Music waveform effect */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent z-10"></div>
         </div>
+        
         <div className="container max-w-3xl mx-auto px-4 text-center z-10">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent tracking-tight">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent tracking-tight animate-pulse">
             SPOTIFY MAX
           </h1>
           <p className="text-xl md:text-2xl text-gray-400 mb-10">
             The future of your music experience.
           </p>
-          <button className="bg-gradient-to-r from-green-500 to-green-400 text-black font-semibold text-lg py-4 px-10 rounded-full transition-all hover:scale-105 hover:shadow-lg hover:shadow-green-500/30">
+          <button 
+            className="bg-gradient-to-r from-green-500 to-green-400 text-black font-semibold text-lg py-4 px-10 rounded-full transition-all hover:scale-105 hover:shadow-lg hover:shadow-green-500/30"
+            onClick={() => {}}
+          >
             Get Started
           </button>
         </div>
@@ -189,7 +208,10 @@ const Home: FC = () => {
           <p className="text-gray-400 mb-10">
             Connect your Spotify account and unlock the future of music exploration.
           </p>
-          <button className="bg-white/5 text-white border border-white/10 font-medium py-3 px-8 rounded-full transition-all hover:bg-white/10">
+          <button 
+            className="bg-white/5 text-white border border-white/10 font-medium py-3 px-8 rounded-full transition-all hover:bg-white/10"
+            onClick={() => {}}
+          >
             Get Started with SPOTIFY MAX
           </button>
           <p className="text-gray-600 text-sm mt-20">
