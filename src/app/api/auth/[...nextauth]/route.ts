@@ -1,6 +1,8 @@
+// app/api/auth/[...nextauth]/route.ts
 import NextAuth from "next-auth";
 import SpotifyProvider from "next-auth/providers/spotify";
 
+// Extend the Session type to include accessToken
 declare module "next-auth" {
   interface Session {
     accessToken?: string;
@@ -12,13 +14,14 @@ const handler = NextAuth({
     SpotifyProvider({
       clientId: process.env.SPOTIFY_CLIENT_ID!,
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET!,
-      authorization: "https://accounts.spotify.com/authorize?scope=user-read-email,user-read-private",
+      authorization: {
+        params: {
+          scope: "user-read-email user-read-private"
+        }
+      }
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-  pages: {
-    signIn: "/auth/signin",
-  },
   callbacks: {
     async jwt({ token, account }) {
       if (account) {
@@ -33,4 +36,5 @@ const handler = NextAuth({
   },
 });
 
+// App Router exports handler functions
 export { handler as GET, handler as POST };
