@@ -4,15 +4,6 @@ import React from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import { signIn } from "next-auth/react";
-import AnimatedBackground from './components/AnimatedBackground';
-
-interface ImageProps {
-  src: string;
-  alt: string;
-  layout: "fill" | "fixed" | "intrinsic" | "responsive";
-  objectFit?: "fill" | "contain" | "cover" | "none" | "scale-down";
-  className?: string;
-}
 
 const Home: React.FC = () => {
   return (
@@ -26,8 +17,20 @@ const Home: React.FC = () => {
 
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center bg-gradient-to-b from-zinc-900 to-black overflow-hidden">
-        {/* Animated Background */}
-        <AnimatedBackground />
+      <div className="absolute inset-0 z-10">
+  <video 
+    autoPlay 
+    loop 
+    muted 
+    playsInline
+    className="object-cover w-full h-full opacity-60"
+    poster="/placeholder.png" // Add a poster as fallback
+  >
+    <source src="/waves.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <div className="absolute inset-0 bg-gray bg-opacity-40"></div>
+</div>
         
         {/* Music waveform effect */}
         <div className="absolute inset-0 z-0 overflow-hidden">
@@ -82,7 +85,7 @@ const Home: React.FC = () => {
             <div className="lg:w-1/2 h-96 rounded-2xl overflow-hidden shadow-2xl z-10">
               <div className="relative w-full h-full">
                 <Image
-                  src="/api/placeholder/700/500"
+                  src="/placeholder.png"
                   alt="Playlist insights visualization"
                   layout="fill"
                   objectFit="cover"

@@ -38,6 +38,6 @@
     "**/*.cjs",
     "**/*.js",
     ".next/types/**/*.ts"
-  ],
+, "src/app/api/auth/signin/[...nextauth]"  ],
   "exclude": ["node_modules"]
 }
