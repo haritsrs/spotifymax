@@ -8,21 +8,7 @@ export default function MusicCompatibility() {
   const [showAuthPopup, setShowAuthPopup] = useState(false);
 
   return (
-    <main className="min-h-screen bg-black text-white overflow-x-hidden">
-      <header className="fixed w-full bg-black/80 backdrop-blur-xl z-50 py-5">
-        <div className="container mx-auto px-6 lg:px-10 flex items-center justify-between">
-          <div className="text-2xl font-semibold tracking-tight">
-            Spotify <span className="bg-gradient-to-r from-[#1DB954] to-[#4eda8c] text-transparent bg-clip-text">Max</span>
-          </div>
-          <button 
-            onClick={() => setShowAuthPopup(true)}
-            className="bg-gradient-to-r from-[#1DB954] to-[#4eda8c] text-black font-semibold py-3 px-7 rounded-full transition-all hover:scale-105 hover:shadow-lg hover:shadow-[#1DB954]/30"
-          >
-            Connect with Spotify
-          </button>
-        </div>
-      </header>
-
+    <main className="min-h-screen bg-black text-white overflow-x-hidden"> 
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_center,_#111111,_#000000_70%)]">
         <div className="absolute inset-0 opacity-20 blur-md scale-110 z-0">
           <Image 
@@ -53,7 +39,7 @@ export default function MusicCompatibility() {
             />
             
             <ProfileCard 
-              name="Alex's Profile"
+              name="Davina's Profile"
               topGenre="Alternative"
               favoriteArtist="Tame Impala"
               moodProfile="Chill"
@@ -210,7 +196,7 @@ function ProfileCard({ name, topGenre, favoriteArtist, moodProfile }: ProfileCar
     <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-8 w-full max-w-xs text-center transition-all hover:translate-y-2 hover:shadow-xl hover:shadow-black/30">
       <div className="w-24 h-24 rounded-full mx-auto mb-5 overflow-hidden border-2 border-[#1DB954]">
         <Image
-          src="/api/placeholder/200/200"
+          src="/placeholder.png"
           alt={name}
           width={96}
           height={96}
@@ -247,7 +233,7 @@ function MusicCard({ title, artist, match }: MusicCardProps) {
     <div className="bg-white/5 backdrop-blur-md rounded-xl border border-white/10 overflow-hidden transition-all hover:translate-y-1 hover:shadow-xl hover:shadow-black/30">
       <div className="w-full h-44 overflow-hidden">
         <Image
-          src="/api/placeholder/300/300"
+          src="/placeholder.png"
           alt={title}
           width={300}
           height={300}

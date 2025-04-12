@@ -1,18 +1,10 @@
-"use client"; // Ensures interactivity works
+// app/components/ClientHeader.tsx
+"use client";
 
-import "~/styles/globals.css";
-import { Geist } from "next/font/google";
-import { TRPCReactProvider } from "~/trpc/react";
-import { signIn, signOut, useSession, SessionProvider } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-});
-
-// Create a new component for the header that uses useSession
-function Header() {
+export default function ClientHeader() {
   const { data: session, status } = useSession();
   const [mounted, setMounted] = useState(false);
   
@@ -28,7 +20,7 @@ function Header() {
         <div className="text-2xl font-semibold tracking-tight text-white">
           SPOTIFY <span className="bg-gradient-to-r from-green-500 to-green-400 bg-clip-text text-transparent">MAX</span>
         </div>
-
+        
         {/* Auth Button or User Profile */}
         {mounted && (
           <>
@@ -37,9 +29,9 @@ function Header() {
                 <div className="text-white">{session.user.name}</div>
                 {session.user.image && (
                   <div className="relative w-10 h-10 rounded-full overflow-hidden">
-                    <img 
-                      src={session.user.image} 
-                      alt="Profile" 
+                    <img
+                      src={session.user.image}
+                      alt="Profile"
                       className="absolute w-full h-full object-cover"
                     />
                   </div>
@@ -52,8 +44,8 @@ function Header() {
                 </button>
               </div>
             ) : (
-              <button 
-                onClick={() => signIn("spotify")} 
+              <button
+                onClick={() => signIn("spotify")}
                 className="bg-gradient-to-r from-green-500 to-green-400 text-black font-semibold py-3 px-6 rounded-full transition-all hover:scale-105 hover:shadow-lg hover:shadow-green-500/30"
               >
                 Connect with Spotify
@@ -63,22 +55,5 @@ function Header() {
         )}
       </div>
     </header>
-  );
-}
-
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <html lang="en" className={`${geist.variable}`}>
-      <body>
-        <SessionProvider>
-          <Header />
-          <TRPCReactProvider>
-            <main className="pt-20">{children}</main> {/* Add padding-top to avoid overlap */}
-          </TRPCReactProvider>
-        </SessionProvider>
-      </body>
-    </html>
   );
 }

@@ -57,25 +57,6 @@ const PlaylistGenerator: FC = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
 
-      {/* Header */}
-      <header className="fixed w-full z-50 bg-black/80 backdrop-blur py-5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between">
-          <Link href="/">
-            <div className="text-2xl font-semibold tracking-tight cursor-pointer">
-              SPOTIFY <span className="bg-gradient-to-r from-green-500 to-green-400 bg-clip-text text-transparent">MAX</span>
-            </div>
-          </Link>
-          <div className="flex items-center gap-6">
-            <Link href="/dashboard">
-              <span className="text-gray-400 hover:text-white transition cursor-pointer">Dashboard</span>
-            </Link>
-            <div className="h-8 w-8 rounded-full bg-gradient-to-r from-green-500 to-green-400 flex items-center justify-center">
-              <span className="text-black font-medium">U</span>
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Main Content */}
       <main className="pt-24 pb-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
