@@ -46,7 +46,7 @@ const Home: React.FC = () => {
           </p>
           <button 
             className="bg-gradient-to-r from-green-500 to-green-400 text-black font-semibold text-lg py-4 px-10 rounded-full transition-all hover:scale-105 hover:shadow-lg hover:shadow-green-500/30"
-            onClick={() => {}}
+            onClick={() => signIn("spotify")}
           >
             Get Started
           </button>
