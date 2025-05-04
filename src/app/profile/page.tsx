@@ -1,4 +1,4 @@
-"use client"; // Ensures interactivity works
+"use client";
 
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
@@ -6,89 +6,175 @@ import Image from 'next/image';
 import { signOut, useSession } from "next-auth/react";
 import { ArrowLeft, LogOut, Settings, Music, Share2, BarChart2, Heart } from 'lucide-react';
 
-// Define types for our profile data
-interface ProfileData {
-  name: string;
-  image: string;
-  followers: number;
-  following: number;
-  topGenres: string[];
-  recentlyPlayed: PlaylistItem[];
-  topArtists: Artist[];
-  listeningStats: ListeningStats;
-}
+export default function ProfilePage() {
+  const { data: session, status } = useSession();
+  const [activeTab, setActiveTab] = useState('overview');
+  const [profileData, setProfileData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-interface PlaylistItem {
-  id: string;
-  name: string;
-  image: string;
-  artist: string;
-  duration: string;
-}
-
-interface Artist {
-  id: string;
-  name: string;
-  image: string;
-  genre: string;
-}
-
-interface ListeningStats {
-  minutesListened: number;
-  topGenre: string;
-  uniqueArtists: number;
-  uniqueTracks: number;
-}
-
-const ProfilePage: React.FC = () => {
-  const { data: session } = useSession();
-  const [activeTab, setActiveTab] = useState<'overview' | 'stats' | 'artists'>('overview');
-  const [profileData, setProfileData] = useState<ProfileData | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
+  // Fetch Spotify data when session is available
   useEffect(() => {
-    // In a real application, you would fetch this data from your API
-    // This is mock data for demonstration purposes
-    setTimeout(() => {
-      setProfileData({
-        name: session?.user?.name || "Music Lover",
-        // Using a placeholder image instead of potentially external URL
-        image: "/placeholder.png", 
-        followers: 427,
-        following: 158,
-        topGenres: ["Indie Pop", "Alternative", "Hip-Hop", "Electronic", "R&B"],
-        recentlyPlayed: [
-          { id: "1", name: "Delicate", artist: "Taylor Swift", image: "/placeholder.png", duration: "3:52" },
-          { id: "2", name: "Blinding Lights", artist: "The Weeknd", image: "/placeholder.png", duration: "3:20" },
-          { id: "3", name: "Stay", artist: "The Kid LAROI, Justin Bieber", image: "/placeholder.png", duration: "2:21" },
-          { id: "4", name: "Heat Waves", artist: "Glass Animals", image: "/placeholder.png", duration: "3:58" },
-          { id: "5", name: "Drivers License", artist: "Olivia Rodrigo", image: "/placeholder.png", duration: "4:02" },
-        ],
-        topArtists: [
-          { id: "1", name: "Taylor Swift", image: "/placeholder.png", genre: "Pop" },
-          { id: "2", name: "The Weeknd", image: "/placeholder.png", genre: "R&B" },
-          { id: "3", name: "Billie Eilish", image: "/placeholder.png", genre: "Alternative" },
-          { id: "4", name: "Drake", image: "/placeholder.png", genre: "Hip-Hop" },
-          { id: "5", name: "Dua Lipa", image: "/placeholder.png", genre: "Pop" },
-        ],
-        listeningStats: {
-          minutesListened: 12467,
-          topGenre: "Indie Pop",
-          uniqueArtists: 285,
-          uniqueTracks: 1243
-        }
-      });
-      setLoading(false);
-    }, 1000);
-  }, [session]);
+    async function fetchSpotifyData() {
+      if (status !== "authenticated" || !session?.accessToken) {
+        return;
+      }
 
-  if (loading) {
+      try {
+        // Create an object to store all our fetched data
+        const data = {
+          name: session.user.name,
+          image: session.user.image,
+          followers: 0,
+          following: 0,
+          topGenres: [],
+          recentlyPlayed: [],
+          topArtists: [],
+          listeningStats: {
+            minutesListened: 0,
+            topGenre: "",
+            uniqueArtists: 0,
+            uniqueTracks: 0
+          }
+        };
+
+        // Fetch user profile information
+        const profileResponse = await fetch('https://api.spotify.com/v1/me', {
+          headers: {
+            Authorization: `Bearer ${session.accessToken}`
+          }
+        });
+        const profileResult = await profileResponse.json();
+        
+        if (profileResult) {
+          data.followers = profileResult.followers?.total || 0;
+          // Note: Spotify API doesn't provide following count directly
+        }
+
+        // Fetch recently played tracks
+        const recentlyPlayedResponse = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=5', {
+          headers: {
+            Authorization: `Bearer ${session.accessToken}`
+          }
+        });
+        const recentlyPlayedResult = await recentlyPlayedResponse.json();
+        
+        if (recentlyPlayedResult?.items) {
+          data.recentlyPlayed = recentlyPlayedResult.items.map(item => {
+            const track = item.track;
+            return {
+              id: track.id,
+              name: track.name,
+              artist: track.artists.map(artist => artist.name).join(', '),
+              image: track.album.images[0]?.url || "/placeholder.png",
+              duration: formatDuration(track.duration_ms)
+            };
+          });
+        }
+
+        // Fetch top artists
+        const topArtistsResponse = await fetch('https://api.spotify.com/v1/me/top/artists?limit=5&time_range=medium_term', {
+          headers: {
+            Authorization: `Bearer ${session.accessToken}`
+          }
+        });
+        const topArtistsResult = await topArtistsResponse.json();
+        
+        if (topArtistsResult?.items) {
+          data.topArtists = topArtistsResult.items.map(artist => {
+            return {
+              id: artist.id,
+              name: artist.name,
+              image: artist.images[0]?.url || "/placeholder.png",
+              genre: artist.genres[0] || "Unknown"
+            };
+          });
+
+          // Extract top genres from top artists
+          const allGenres = topArtistsResult.items.flatMap(artist => artist.genres);
+          const genreCounts = {};
+          allGenres.forEach(genre => {
+            genreCounts[genre] = (genreCounts[genre] || 0) + 1;
+          });
+          
+          // Sort by count and take top 5
+          data.topGenres = Object.entries(genreCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(entry => entry[0]);
+          
+          // Set top genre in listening stats
+          if (data.topGenres.length > 0) {
+            data.listeningStats.topGenre = data.topGenres[0];
+          }
+        }
+
+        // Fetch user's top tracks to get unique tracks count
+        const topTracksResponse = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=medium_term', {
+          headers: {
+            Authorization: `Bearer ${session.accessToken}`
+          }
+        });
+        const topTracksResult = await topTracksResponse.json();
+        
+        if (topTracksResult?.items) {
+          data.listeningStats.uniqueTracks = topTracksResult.items.length;
+          
+          // Calculate unique artists from top tracks
+          const uniqueArtistIds = new Set();
+          topTracksResult.items.forEach(track => {
+            track.artists.forEach(artist => uniqueArtistIds.add(artist.id));
+          });
+          data.listeningStats.uniqueArtists = uniqueArtistIds.size;
+        }
+
+        // For minutes listened, we'll approximate from available data
+        // This is just an approximation since Spotify API doesn't directly provide total listening time
+        const averageTrackLength = 3.5; // minutes
+        const estimatedTracksPerMonth = 300; // rough estimate
+        data.listeningStats.minutesListened = Math.round(averageTrackLength * estimatedTracksPerMonth);
+
+        setProfileData(data);
+      } catch (error) {
+        console.error("Error fetching Spotify data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchSpotifyData();
+  }, [session, status]);
+
+  // Helper function to format duration from milliseconds to mm:ss
+  function formatDuration(ms) {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  }
+
+  if (status === "loading" || loading) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <div className="animate-pulse flex flex-col items-center">
           <div className="w-24 h-24 bg-green-500 opacity-30 rounded-full mb-4"></div>
           <div className="h-6 bg-white/20 rounded w-48 mb-4"></div>
           <div className="h-4 bg-white/10 rounded w-32"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (status === "unauthenticated") {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold mb-4">Please Log In</h1>
+          <p className="mb-6">You need to be logged in to view your Spotify profile.</p>
+          <button 
+            className="bg-green-500 text-black font-semibold py-3 px-8 rounded-full transition-all hover:scale-105"
+            onClick={() => window.location.href = "/api/auth/signin"}
+          >
+            Sign In with Spotify
+          </button>
         </div>
       </div>
     );
@@ -263,7 +349,7 @@ const ProfilePage: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6">
                     <div className="text-4xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent tracking-tighter mb-2">
-                      {Math.floor(profileData?.listeningStats.minutesListened! / 60)}h {profileData?.listeningStats.minutesListened! % 60}m
+                      {Math.floor(profileData?.listeningStats.minutesListened / 60)}h {profileData?.listeningStats.minutesListened % 60}m
                     </div>
                     <div className="text-gray-400 text-sm">
                       Time spent listening
@@ -272,7 +358,7 @@ const ProfilePage: React.FC = () => {
                   
                   <div className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6">
                     <div className="text-4xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent tracking-tighter mb-2">
-                      {profileData?.listeningStats.topGenre}
+                      {profileData?.listeningStats.topGenre || "N/A"}
                     </div>
                     <div className="text-gray-400 text-sm">
                       Most played genre
@@ -335,21 +421,23 @@ const ProfilePage: React.FC = () => {
                     <p className="text-gray-500">Genre distribution chart would appear here</p>
                   </div>
                   <div className="mt-6 flex flex-wrap gap-3">
-                    <div className="bg-green-500/20 border border-green-500/30 px-4 py-2 rounded-full">
-                      <span className="font-medium">Indie Pop</span> <span className="text-gray-400">32%</span>
-                    </div>
-                    <div className="bg-blue-500/20 border border-blue-500/30 px-4 py-2 rounded-full">
-                      <span className="font-medium">Alternative</span> <span className="text-gray-400">24%</span>
-                    </div>
-                    <div className="bg-purple-500/20 border border-purple-500/30 px-4 py-2 rounded-full">
-                      <span className="font-medium">Hip-Hop</span> <span className="text-gray-400">18%</span>
-                    </div>
-                    <div className="bg-red-500/20 border border-red-500/30 px-4 py-2 rounded-full">
-                      <span className="font-medium">Electronic</span> <span className="text-gray-400">15%</span>
-                    </div>
-                    <div className="bg-yellow-500/20 border border-yellow-500/30 px-4 py-2 rounded-full">
-                      <span className="font-medium">R&B</span> <span className="text-gray-400">11%</span>
-                    </div>
+                    {profileData?.topGenres.map((genre, index) => {
+                      const colors = [
+                        "bg-green-500/20 border-green-500/30",
+                        "bg-blue-500/20 border-blue-500/30", 
+                        "bg-purple-500/20 border-purple-500/30",
+                        "bg-red-500/20 border-red-500/30",
+                        "bg-yellow-500/20 border-yellow-500/30"
+                      ];
+                      const color = colors[index % colors.length];
+                      const percentage = Math.round(100 / (index + 2));
+                      
+                      return (
+                        <div key={index} className={`${color} px-4 py-2 rounded-full border`}>
+                          <span className="font-medium">{genre}</span> <span className="text-gray-400">{percentage}%</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </section>
@@ -415,6 +503,4 @@ const ProfilePage: React.FC = () => {
       </footer>
     </div>
   );
-};
-
-export default ProfilePage;
+}
