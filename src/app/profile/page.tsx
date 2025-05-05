@@ -6,10 +6,37 @@ import Image from 'next/image';
 import { signOut, useSession } from "next-auth/react";
 import { ArrowLeft, LogOut, Settings, Music, Share2, BarChart2, Heart } from 'lucide-react';
 
+interface ProfileData {
+  name: string;
+  image: string;
+  followers: number;
+  following: number;
+  topGenres: string[];
+  recentlyPlayed: {
+    id: string;
+    name: string;
+    artist: string;
+    image: string;
+    duration: string;
+  }[];
+  topArtists: {
+    id: string;
+    name: string;
+    image: string;
+    genre: string;
+  }[];
+  listeningStats: {
+    minutesListened: number;
+    topGenre: string;
+    uniqueArtists: number;
+    uniqueTracks: number;
+  };
+}
+
 export default function ProfilePage() {
   const { data: session, status } = useSession();
   const [activeTab, setActiveTab] = useState('overview');
-  const [profileData, setProfileData] = useState(null);
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
 
   // Fetch Spotify data when session is available
@@ -22,11 +49,11 @@ export default function ProfilePage() {
       try {
         // Create an object to store all our fetched data
         const data = {
-          name: session.user.name,
-          image: session.user.image,
+          name: session.user?.name || "Unknown",
+          image: session.user?.image || "/placeholder.png",
           followers: 0,
           following: 0,
-          topGenres: [],
+          topGenres: [] as string[],
           recentlyPlayed: [],
           topArtists: [],
           listeningStats: {
@@ -59,12 +86,12 @@ export default function ProfilePage() {
         const recentlyPlayedResult = await recentlyPlayedResponse.json();
         
         if (recentlyPlayedResult?.items) {
-          data.recentlyPlayed = recentlyPlayedResult.items.map(item => {
+          data.recentlyPlayed = recentlyPlayedResult.items.map((item: { track: any; }) => {
             const track = item.track;
             return {
               id: track.id,
               name: track.name,
-              artist: track.artists.map(artist => artist.name).join(', '),
+              artist: track.artists.map((artist: { name: any; }) => artist.name).join(', '),
               image: track.album.images[0]?.url || "/placeholder.png",
               duration: formatDuration(track.duration_ms)
             };
@@ -80,7 +107,7 @@ export default function ProfilePage() {
         const topArtistsResult = await topArtistsResponse.json();
         
         if (topArtistsResult?.items) {
-          data.topArtists = topArtistsResult.items.map(artist => {
+          data.topArtists = topArtistsResult.items.map((artist: { id: any; name: any; images: { url: any; }[]; genres: any[]; }) => {
             return {
               id: artist.id,
               name: artist.name,
@@ -90,9 +117,9 @@ export default function ProfilePage() {
           });
 
           // Extract top genres from top artists
-          const allGenres = topArtistsResult.items.flatMap(artist => artist.genres);
-          const genreCounts = {};
-          allGenres.forEach(genre => {
+          const allGenres = topArtistsResult.items.flatMap((artist: { genres: any; }) => artist.genres);
+          const genreCounts: Record<string, number> = {};
+          allGenres.forEach((genre: string | number) => {
             genreCounts[genre] = (genreCounts[genre] || 0) + 1;
           });
           
@@ -104,7 +131,7 @@ export default function ProfilePage() {
           
           // Set top genre in listening stats
           if (data.topGenres.length > 0) {
-            data.listeningStats.topGenre = data.topGenres[0];
+            data.listeningStats.topGenre = data.topGenres[0] || "";
           }
         }
 
@@ -121,8 +148,10 @@ export default function ProfilePage() {
           
           // Calculate unique artists from top tracks
           const uniqueArtistIds = new Set();
-          topTracksResult.items.forEach(track => {
-            track.artists.forEach(artist => uniqueArtistIds.add(artist.id));
+          topTracksResult.items.forEach((track: { artists: any[]; }) => {
+            track.artists.forEach(artist => {
+              return uniqueArtistIds.add(artist.id);
+            });
           });
           data.listeningStats.uniqueArtists = uniqueArtistIds.size;
         }
@@ -145,7 +174,7 @@ export default function ProfilePage() {
   }, [session, status]);
 
   // Helper function to format duration from milliseconds to mm:ss
-  function formatDuration(ms) {
+  function formatDuration(ms: number): string {
     const minutes = Math.floor(ms / 60000);
     const seconds = Math.floor((ms % 60000) / 1000);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
@@ -221,7 +250,7 @@ export default function ProfilePage() {
           <div className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left">
             <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden mb-6 md:mb-0 md:mr-8 border-4 border-white/10">
               <Image 
-                src={profileData?.image || "/placeholder.png"}
+                src={String(profileData?.image || "/placeholder.png")}
                 alt="Profile picture"
                 width={160}
                 height={160}
@@ -349,7 +378,7 @@ export default function ProfilePage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6">
                     <div className="text-4xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent tracking-tighter mb-2">
-                      {Math.floor(profileData?.listeningStats.minutesListened / 60)}h {profileData?.listeningStats.minutesListened % 60}m
+                      {Math.floor((profileData?.listeningStats?.minutesListened ?? 0) / 60)}h {(profileData?.listeningStats?.minutesListened ?? 0) % 60}m
                     </div>
                     <div className="text-gray-400 text-sm">
                       Time spent listening
