@@ -116,7 +116,6 @@ export default function ProfilePage() {
             };
           });
 
-          // Extract top genres from top artists
           const allGenres = topArtistsResult.items.flatMap((artist: { genres: any; }) => artist.genres);
           const genreCounts: Record<string, number> = {};
           allGenres.forEach((genre: string | number) => {
