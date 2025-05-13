@@ -53,7 +53,6 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-20 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent tracking-tight">
