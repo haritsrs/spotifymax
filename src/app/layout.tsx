@@ -5,6 +5,7 @@ import { Geist } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 import { signIn, signOut, useSession, SessionProvider } from "next-auth/react";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -25,24 +26,25 @@ function Header() {
     <header className="fixed w-full z-50 bg-black/90 backdrop-blur-md border-b border-gray-700 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between py-4">
         {/* Logo */}
-        <div className="text-2xl font-semibold tracking-tight text-white">
+        <Link href="/" className="text-2xl font-semibold tracking-tight text-white flex items-center gap-1">
           SPOTIFY <span className="bg-gradient-to-r from-green-500 to-green-400 bg-clip-text text-transparent">MAX</span>
-        </div>
+        </Link>
 
         {/* Auth Button or User Profile */}
         {mounted && (
           <>
             {status === "authenticated" && session?.user ? (
               <div className="flex items-center gap-4">
-                <div className="text-white">{session.user.name}</div>
                 {session.user.image && (
-                  <div className="relative w-10 h-10 rounded-full overflow-hidden">
-                    <img 
-                      src={session.user.image} 
-                      alt="Profile" 
-                      className="absolute w-full h-full object-cover"
-                    />
-                  </div>
+                  <Link href="/profile">
+                    <div className="relative w-10 h-10 rounded-full overflow-hidden cursor-pointer">
+                      <img 
+                        src={session.user.image} 
+                        alt="Profile" 
+                        className="absolute w-full h-full object-cover"
+                      />
+                    </div>
+                  </Link>
                 )}
                 <button
                   onClick={() => signOut()}
