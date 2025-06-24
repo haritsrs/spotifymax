@@ -5,33 +5,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { signOut, useSession } from "next-auth/react";
 import { ArrowLeft, LogOut, Settings, Music, Share2, BarChart2, Heart } from 'lucide-react';
-
-interface ProfileData {
-  name: string;
-  image: string;
-  followers: number;
-  following: number;
-  topGenres: string[];
-  recentlyPlayed: {
-    id: string;
-    name: string;
-    artist: string;
-    image: string;
-    duration: string;
-  }[];
-  topArtists: {
-    id: string;
-    name: string;
-    image: string;
-    genre: string;
-  }[];
-  listeningStats: {
-    minutesListened: number;
-    topGenre: string;
-    uniqueArtists: number;
-    uniqueTracks: number;
-  };
-}
+import type { ProfileData } from '../../../types/ProfileData';
 
 export default function ProfilePage() {
   const { data: session, status } = useSession();
