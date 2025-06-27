@@ -82,15 +82,15 @@ const Home: React.FC = () => {
               </div>
             </div>
             <div className="lg:w-1/2 h-96 rounded-2xl overflow-hidden shadow-2xl z-10">
-              <div className="relative w-full h-full">
+                <a href="/page1" className="relative w-full h-full block">
                 <Image
-                  src="/placeholder.png"
+                  src="/home/1.png"
                   alt="Advanced playlist intelligence dashboard"
                   layout="fill"
                   objectFit="cover"
-                  className="rounded-2xl"
+                  className="rounded-2xl cursor-pointer"
                 />
-              </div>
+                </a>
             </div>
           </div>
 
