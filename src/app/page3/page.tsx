@@ -72,14 +72,14 @@ const MusicCompatibilityPage = () => {
     }
   ];
 
-  const getCompatibilityColor = (score) => {
+  const getCompatibilityColor = (score: number) => {
     if (score >= 90) return "text-green-400";
     if (score >= 80) return "text-blue-400";
     if (score >= 70) return "text-yellow-400";
     return "text-orange-400";
   };
 
-  const getCompatibilityBg = (score) => {
+  const getCompatibilityBg = (score: number) => {
     if (score >= 90) return "bg-green-500/20 border-green-500/30";
     if (score >= 80) return "bg-blue-500/20 border-blue-500/30";
     if (score >= 70) return "bg-yellow-500/20 border-yellow-500/30";
