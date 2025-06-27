@@ -44,40 +44,40 @@ const Home: React.FC = () => {
           <p className="text-xl md:text-2xl text-gray-400 mb-10">
             The future of your music experience.
           </p>
-          <button 
+            <button 
             className="bg-gradient-to-r from-green-500 to-green-400 text-black font-semibold text-lg py-4 px-10 rounded-full transition-all hover:scale-105 hover:shadow-lg hover:shadow-green-500/30"
-            onClick={() => signIn("spotify")}
-          >
+            onClick={() => window.location.href = "/getstarted"}
+            >
             Get Started
-          </button>
+            </button>
         </div>
       </section>
 
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-20 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent tracking-tight">
-            Features
+            Core Features
           </h2>
 
-          {/* Feature 1 */}
+          {/* Feature 1 - Advanced playlist intelligence and insights */}
           <div className="relative flex flex-col lg:flex-row items-center mb-48 lg:mb-52">
             <div className="absolute w-96 h-96 rounded-full bg-green-500 filter blur-[100px] opacity-15 -top-24 -left-24 z-0"></div>
             <div className="lg:w-1/2 px-0 lg:px-12 mb-12 lg:mb-0 z-10">
               <span className="text-green-500 uppercase tracking-wider text-sm font-medium block mb-3">
-                Insights
+                Intelligence
               </span>
               <h3 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
-                Playlist Intelligence
+                Advanced Playlist Intelligence
               </h3>
               <p className="text-lg text-gray-400 mb-8 leading-relaxed">
-                Discover patterns in your music with detailed analytics that visualize your listening habits like never before. See connections between artists, genres, and moods that shape your unique sound profile.
+                Unlock deep insights into your music library with advanced analytics that reveal hidden patterns, genre connections, and listening behaviors. Get comprehensive data on your playlist evolution and music discovery journey.
               </p>
               <div className="inline-block bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6">
                 <div className="text-5xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent tracking-tighter mb-2">
-                  247%
+                  360°
                 </div>
                 <div className="text-gray-400 text-sm">
-                  More insights than standard Spotify
+                  Complete playlist analysis
                 </div>
               </div>
             </div>
@@ -85,7 +85,7 @@ const Home: React.FC = () => {
               <div className="relative w-full h-full">
                 <Image
                   src="/placeholder.png"
-                  alt="Playlist insights visualization"
+                  alt="Advanced playlist intelligence dashboard"
                   layout="fill"
                   objectFit="cover"
                   className="rounded-2xl"
@@ -94,7 +94,7 @@ const Home: React.FC = () => {
             </div>
           </div>
 
-          {/* Feature 2 */}
+          {/* Feature 2 - AI-powered music recommendations */}
           <div className="relative flex flex-col lg:flex-row-reverse items-center mb-48 lg:mb-52">
             <div className="absolute w-96 h-96 rounded-full bg-purple-600 filter blur-[100px] opacity-15 -bottom-24 -right-24 z-0"></div>
             <div className="lg:w-1/2 px-0 lg:px-12 mb-12 lg:mb-0 z-10">
@@ -102,17 +102,17 @@ const Home: React.FC = () => {
                 AI Powered
               </span>
               <h3 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
-                Intelligent Playlist Generation
+                Smart Music Recommendations
               </h3>
               <p className="text-lg text-gray-400 mb-8 leading-relaxed">
-                Our advanced AI engine creates custom playlists based on your mood, activity, or even text input. Just tell us how you feel, and we'll match the perfect soundtrack to your moment.
+                Experience next-level music discovery with our AI engine that learns your preferences, mood patterns, and listening context. Get personalized recommendations that perfectly match your taste and current vibe.
               </p>
               <div className="inline-block bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6">
                 <div className="text-5xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent tracking-tighter mb-2">
-                  98.2%
+                  97.8%
                 </div>
                 <div className="text-gray-400 text-sm">
-                  Match accuracy with your preferences
+                  Recommendation accuracy rate
                 </div>
               </div>
             </div>
@@ -120,7 +120,7 @@ const Home: React.FC = () => {
               <div className="relative w-full h-full">
                 <Image
                   src="/placeholder.png"
-                  alt="AI playlist generation"
+                  alt="AI-powered music recommendations"
                   layout="fill"
                   objectFit="cover"
                   className="rounded-2xl"
@@ -129,7 +129,7 @@ const Home: React.FC = () => {
             </div>
           </div>
 
-          {/* Feature 3 */}
+          {/* Feature 3 - Social music compatibility matching */}
           <div className="relative flex flex-col lg:flex-row items-center mb-48 lg:mb-52">
             <div className="absolute w-96 h-96 rounded-full bg-blue-500 filter blur-[100px] opacity-15 -top-24 -right-24 z-0"></div>
             <div className="lg:w-1/2 px-0 lg:px-12 mb-12 lg:mb-0 z-10">
@@ -137,17 +137,17 @@ const Home: React.FC = () => {
                 Social
               </span>
               <h3 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
-                Music Compatibility
+                Music Compatibility Matching
               </h3>
               <p className="text-lg text-gray-400 mb-8 leading-relaxed">
-                Compare your musical taste with friends and discover your compatibility score. Find shared favorites and explore new recommendations based on your collective preferences.
+                Discover how your musical taste aligns with friends through sophisticated compatibility algorithms. Find your music soulmates, explore shared preferences, and build stronger connections through sound.
               </p>
               <div className="inline-block bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6">
                 <div className="text-5xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent tracking-tighter mb-2">
-                  5M+
+                  8.5M+
                 </div>
                 <div className="text-gray-400 text-sm">
-                  Compatibility checks performed
+                  Compatibility matches made
                 </div>
               </div>
             </div>
@@ -155,7 +155,7 @@ const Home: React.FC = () => {
               <div className="relative w-full h-full">
                 <Image
                   src="/placeholder.png"
-                  alt="Music compatibility checker"
+                  alt="Social music compatibility matching"
                   layout="fill"
                   objectFit="cover"
                   className="rounded-2xl"
@@ -164,25 +164,25 @@ const Home: React.FC = () => {
             </div>
           </div>
 
-          {/* Feature 4 */}
-          <div className="relative flex flex-col lg:flex-row-reverse items-center mb-0">
+          {/* Feature 4 - Custom aesthetic playlist generation */}
+          <div className="relative flex flex-col lg:flex-row-reverse items-center mb-48 lg:mb-52">
             <div className="absolute w-96 h-96 rounded-full bg-red-500 filter blur-[100px] opacity-15 -bottom-24 -left-24 z-0"></div>
             <div className="lg:w-1/2 px-0 lg:px-12 mb-12 lg:mb-0 z-10">
               <span className="text-green-500 uppercase tracking-wider text-sm font-medium block mb-3">
                 Creative
               </span>
               <h3 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
-                Custom Playlist Aesthetics
+                Custom Aesthetic Generation
               </h3>
               <p className="text-lg text-gray-400 mb-8 leading-relaxed">
-                Personalize your playlists with AI-generated artwork and creative names that match the vibe of your music. Create a visual identity for your unique collection of sounds.
+                Transform your playlists into visual masterpieces with AI-generated artwork, creative naming, and aesthetic themes that perfectly capture the essence of your music collection's unique vibe and energy.
               </p>
               <div className="inline-block bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6">
                 <div className="text-5xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent tracking-tighter mb-2">
                   ∞
                 </div>
                 <div className="text-gray-400 text-sm">
-                  Unique combinations of art & names
+                  Unique aesthetic combinations
                 </div>
               </div>
             </div>
@@ -190,7 +190,42 @@ const Home: React.FC = () => {
               <div className="relative w-full h-full">
                 <Image
                   src="/placeholder.png"
-                  alt="Custom playlist covers"
+                  alt="Custom aesthetic playlist generation"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-2xl"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Feature 5 - Detailed monthly listening analytics */}
+          <div className="relative flex flex-col lg:flex-row items-center mb-0">
+            <div className="absolute w-96 h-96 rounded-full bg-orange-500 filter blur-[100px] opacity-15 -top-24 -left-24 z-0"></div>
+            <div className="lg:w-1/2 px-0 lg:px-12 mb-12 lg:mb-0 z-10">
+              <span className="text-green-500 uppercase tracking-wider text-sm font-medium block mb-3">
+                Analytics
+              </span>
+              <h3 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
+                Monthly Listening Analytics
+              </h3>
+              <p className="text-lg text-gray-400 mb-8 leading-relaxed">
+                Get comprehensive monthly reports that dive deep into your listening habits, track your musical evolution, and provide detailed insights about your favorite artists, genres, and discovery patterns.
+              </p>
+              <div className="inline-block bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6">
+                <div className="text-5xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent tracking-tighter mb-2">
+                  50+
+                </div>
+                <div className="text-gray-400 text-sm">
+                  Data points tracked monthly
+                </div>
+              </div>
+            </div>
+            <div className="lg:w-1/2 h-96 rounded-2xl overflow-hidden shadow-2xl z-10">
+              <div className="relative w-full h-full">
+                <Image
+                  src="/placeholder.png"
+                  alt="Detailed monthly listening analytics"
                   layout="fill"
                   objectFit="cover"
                   className="rounded-2xl"
