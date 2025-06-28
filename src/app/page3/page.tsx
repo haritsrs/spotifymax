@@ -72,27 +72,6 @@ const AIRecommendationsPage = () => {
 
   return (
     <div className="min-h-screen bg-black text-white font-sans">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button 
-              onClick={() => window.history.back()} 
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              ← Back
-            </button>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-              AI Recommendations
-            </h1>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Brain className="w-5 h-5 text-green-500" />
-            <span className="text-sm text-gray-400">AI Engine Active</span>
-          </div>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-green-900/20"></div>

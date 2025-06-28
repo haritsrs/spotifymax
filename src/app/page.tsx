@@ -119,7 +119,7 @@ const Home: React.FC = () => {
             <div className="lg:w-1/2 h-96 rounded-2xl overflow-hidden shadow-2xl z-10">
               <div className="relative w-full h-full">
                 <Image
-                  src="/placeholder.png"
+                  src="/home/2.png"
                   alt="AI-powered music recommendations"
                   layout="fill"
                   objectFit="cover"
@@ -154,7 +154,7 @@ const Home: React.FC = () => {
             <div className="lg:w-1/2 h-96 rounded-2xl overflow-hidden shadow-2xl z-10">
               <div className="relative w-full h-full">
                 <Image
-                  src="/placeholder.png"
+                  src="/home/3.png"
                   alt="Social music compatibility matching"
                   layout="fill"
                   objectFit="cover"
@@ -189,7 +189,7 @@ const Home: React.FC = () => {
             <div className="lg:w-1/2 h-96 rounded-2xl overflow-hidden shadow-2xl z-10">
               <div className="relative w-full h-full">
                 <Image
-                  src="/placeholder.png"
+                  src="/home/4.png"
                   alt="Custom aesthetic playlist generation"
                   layout="fill"
                   objectFit="cover"
@@ -224,7 +224,7 @@ const Home: React.FC = () => {
             <div className="lg:w-1/2 h-96 rounded-2xl overflow-hidden shadow-2xl z-10">
               <div className="relative w-full h-full">
                 <Image
-                  src="/placeholder.png"
+                  src="/home/5.png"
                   alt="Detailed monthly listening analytics"
                   layout="fill"
                   objectFit="cover"

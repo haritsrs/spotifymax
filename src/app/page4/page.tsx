@@ -88,25 +88,6 @@ const MusicCompatibilityPage = () => {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden font-sans">
-      {/* Header */}
-      <header className="relative z-50 p-6">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button className="text-gray-400 hover:text-white transition-colors">
-              ← Back
-            </button>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-              SPOTIFY MAX
-            </h1>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center text-black font-bold">
-              M
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="relative py-20 px-6">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-purple-900/20 to-pink-900/30"></div>

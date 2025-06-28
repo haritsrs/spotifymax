@@ -3,8 +3,17 @@
 import React, { useState, useEffect } from 'react';
 import { Palette, Sparkles, Download, Shuffle, Eye, Image, Type, Wand2, Save, Share2, RefreshCw } from 'lucide-react';
 
+type Playlist = {
+  id: number;
+  name: string;
+  tracks: number;
+  duration: string;
+  mood: string;
+  genres: string[];
+};
+
 const CustomAestheticPage = () => {
-  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+  const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(null);
   const [generatingAesthetic, setGeneratingAesthetic] = useState(false);
   const [activeAesthetic, setActiveAesthetic] = useState('cosmic');
   const [animatedCount, setAnimatedCount] = useState(0);
@@ -111,18 +120,10 @@ const CustomAestheticPage = () => {
       colors: "Warm Earth Tones",
       font: "Helvetica Light",
       elements: ["Soft shadows", "Paper texture", "Steam wisps"]
-    },
-    {
-      playlistName: "Workout Energy",
-      aesthetic: "Electric Pulse",
-      cover: "⚡",
-      colors: "Neon Orange-Red",
-      font: "Impact Bold",
-      elements: ["Lightning effects", "Motion blur", "Intensity bars"]
     }
   ];
 
-  const handleGenerateAesthetic = (playlist) => {
+  const handleGenerateAesthetic = (playlist: Playlist) => {
     setSelectedPlaylist(playlist);
     setGeneratingAesthetic(true);
     
@@ -131,32 +132,13 @@ const CustomAestheticPage = () => {
     }, 3000);
   };
 
-  const getAestheticGradient = (aestheticId) => {
+  const getAestheticGradient = (aestheticId: string) => {
     const aesthetic = aestheticTemplates.find(a => a.id === aestheticId);
     return aesthetic ? `bg-gradient-to-br ${aesthetic.colors.join(' ')}` : 'bg-gradient-to-br from-purple-900 via-blue-900 to-black';
   };
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden font-sans">
-      {/* Header */}
-      <header className="relative z-50 p-6">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button className="text-gray-400 hover:text-white transition-colors">
-              ← Back
-            </button>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-              SPOTIFY MAX
-            </h1>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center text-black font-bold">
-              M
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="relative py-20 px-6">
         <div className="absolute inset-0 bg-gradient-to-br from-red-900/30 via-purple-900/20 to-orange-900/30"></div>

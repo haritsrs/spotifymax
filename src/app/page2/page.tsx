@@ -303,17 +303,6 @@ const MonthlyRecap = () => {
 
       {/* Main content */}
       <div className="relative z-10 min-h-screen flex flex-col">
-        {/* Header */}
-        <header className="p-6 flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <Headphones className="w-8 h-8 text-green-400" />
-            <span className="text-xl font-bold">SPOTIFY MAX</span>
-          </div>
-          <div className="text-sm text-gray-400">
-            {currentSlide + 1} / {slides.length}
-          </div>
-        </header>
-
         {/* Slide content */}
         <div className="flex-1 flex items-center justify-center px-6">
           <div className="max-w-4xl mx-auto w-full">
