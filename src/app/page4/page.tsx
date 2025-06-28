@@ -1,139 +1,89 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Palette, Sparkles, Download, Shuffle, Eye, Image, Type, Wand2, Save, Share2, RefreshCw } from 'lucide-react';
+import { Users, Heart, Music, TrendingUp, Star, Play, UserPlus, Share2, Zap, Award } from 'lucide-react';
 
-const CustomAestheticPage = () => {
-  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
-  const [generatingAesthetic, setGeneratingAesthetic] = useState(false);
-  const [activeAesthetic, setActiveAesthetic] = useState('cosmic');
-  const [animatedCount, setAnimatedCount] = useState(0);
+const MusicCompatibilityPage = () => {
+  const [activeTab, setActiveTab] = useState('discover');
+  const [animatedStats, setAnimatedStats] = useState({ matches: 0, compatibility: 0, connections: 0 });
 
   // Animated counter effect
   useEffect(() => {
     const timer = setTimeout(() => {
-      setAnimatedCount(47392);
+      setAnimatedStats({ matches: 8547, compatibility: 94, connections: 2847 });
     }, 500);
     return () => clearTimeout(timer);
   }, []);
 
-  const playlists = [
+  const compatibilityMatches = [
     {
       id: 1,
-      name: "Late Night Drives",
-      tracks: 43,
-      duration: "2h 47m",
-      mood: "Nocturnal",
-      genres: ["Synthwave", "Electronic", "Ambient"]
+      name: "Alex Chen",
+      compatibility: 94,
+      avatar: "🎵",
+      sharedGenres: ["Indie Rock", "Alternative", "Dream Pop"],
+      topArtists: ["Tame Impala", "Arctic Monkeys", "Beach House"],
+      status: "online",
+      mutualFriends: 12
     },
     {
       id: 2,
-      name: "Morning Coffee Vibes",
-      tracks: 28,
-      duration: "1h 52m",
-      mood: "Peaceful",
-      genres: ["Indie Folk", "Acoustic", "Jazz"]
+      name: "Sarah Martinez",
+      compatibility: 89,
+      avatar: "🎸",
+      sharedGenres: ["Electronic", "Synthwave", "Ambient"],
+      topArtists: ["Boards of Canada", "Tycho", "Emancipator"],
+      status: "listening",
+      mutualFriends: 8
     },
     {
       id: 3,
-      name: "Workout Energy",
-      tracks: 35,
-      duration: "2h 15m",
-      mood: "Energetic",
-      genres: ["Hip-Hop", "Electronic", "Rock"]
+      name: "Jordan Kim",
+      compatibility: 87,
+      avatar: "🎤",
+      sharedGenres: ["Hip-Hop", "R&B", "Neo-Soul"],
+      topArtists: ["Kendrick Lamar", "Frank Ocean", "The Weeknd"],
+      status: "offline",
+      mutualFriends: 15
     }
   ];
 
-  const aestheticTemplates = [
+  const sharedPlaylists = [
     {
-      id: 'cosmic',
-      name: 'Cosmic Dreams',
-      description: 'Deep space vibes with stellar gradients',
-      preview: '🌌',
-      colors: ['from-purple-900', 'via-blue-900', 'to-black'],
-      style: 'Futuristic'
+      title: "Midnight Vibes",
+      collaborator: "Alex Chen",
+      tracks: 47,
+      plays: 1284,
+      cover: "🌙"
     },
     {
-      id: 'neon',
-      name: 'Neon Nights',
-      description: 'Cyberpunk aesthetics with electric colors',
-      preview: '🌃',
-      colors: ['from-pink-500', 'via-purple-500', 'to-blue-500'],
-      style: 'Cyberpunk'
+      title: "Study Session",
+      collaborator: "Sarah Martinez",
+      tracks: 32,
+      plays: 892,
+      cover: "📚"
     },
     {
-      id: 'minimal',
-      name: 'Clean Minimal',
-      description: 'Simple elegance with soft tones',
-      preview: '⚪',
-      colors: ['from-gray-100', 'via-gray-200', 'to-white'],
-      style: 'Minimalist'
-    },
-    {
-      id: 'vintage',
-      name: 'Vintage Film',
-      description: 'Retro warmth with film grain texture',
-      preview: '📸',
-      colors: ['from-orange-400', 'via-red-400', 'to-yellow-300'],
-      style: 'Retro'
-    },
-    {
-      id: 'nature',
-      name: 'Forest Dreams',
-      description: 'Organic textures with earth tones',
-      preview: '🌿',
-      colors: ['from-green-800', 'via-green-600', 'to-emerald-400'],
-      style: 'Organic'
-    },
-    {
-      id: 'abstract',
-      name: 'Abstract Flow',
-      description: 'Fluid shapes with dynamic gradients',
-      preview: '🎨',
-      colors: ['from-indigo-500', 'via-purple-500', 'to-pink-500'],
-      style: 'Abstract'
+      title: "Road Trip Essentials",
+      collaborator: "Jordan Kim",
+      tracks: 68,
+      plays: 2156,
+      cover: "🚗"
     }
   ];
 
-  const generatedAesthetics = [
-    {
-      playlistName: "Late Night Drives",
-      aesthetic: "Neon Highway",
-      cover: "🌃",
-      colors: "Purple-Pink Gradient",
-      font: "Futura Extended",
-      elements: ["Neon glow", "City skyline", "Light trails"]
-    },
-    {
-      playlistName: "Morning Coffee Vibes",
-      aesthetic: "Cozy Minimalism",
-      cover: "☕",
-      colors: "Warm Earth Tones",
-      font: "Helvetica Light",
-      elements: ["Soft shadows", "Paper texture", "Steam wisps"]
-    },
-    {
-      playlistName: "Workout Energy",
-      aesthetic: "Electric Pulse",
-      cover: "⚡",
-      colors: "Neon Orange-Red",
-      font: "Impact Bold",
-      elements: ["Lightning effects", "Motion blur", "Intensity bars"]
-    }
-  ];
-
-  const handleGenerateAesthetic = (playlist) => {
-    setSelectedPlaylist(playlist);
-    setGeneratingAesthetic(true);
-    
-    setTimeout(() => {
-      setGeneratingAesthetic(false);
-    }, 3000);
+  const getCompatibilityColor = (score: number) => {
+    if (score >= 90) return "text-green-400";
+    if (score >= 80) return "text-blue-400";
+    if (score >= 70) return "text-yellow-400";
+    return "text-orange-400";
   };
 
-  const getAestheticGradient = (aestheticId) => {
-    const aesthetic = aestheticTemplates.find(a => a.id === aestheticId);
-    return aesthetic ? `bg-gradient-to-br ${aesthetic.colors.join(' ')}` : 'bg-gradient-to-br from-purple-900 via-blue-900 to-black';
+  const getCompatibilityBg = (score: number) => {
+    if (score >= 90) return "bg-green-500/20 border-green-500/30";
+    if (score >= 80) return "bg-blue-500/20 border-blue-500/30";
+    if (score >= 70) return "bg-yellow-500/20 border-yellow-500/30";
+    return "bg-orange-500/20 border-orange-500/30";
   };
 
   return (
@@ -159,43 +109,43 @@ const CustomAestheticPage = () => {
 
       {/* Hero Section */}
       <section className="relative py-20 px-6">
-        <div className="absolute inset-0 bg-gradient-to-br from-red-900/30 via-purple-900/20 to-orange-900/30"></div>
-        <div className="absolute w-96 h-96 rounded-full bg-red-500 filter blur-[150px] opacity-20 -top-24 -left-24"></div>
-        <div className="absolute w-64 h-64 rounded-full bg-orange-500 filter blur-[100px] opacity-20 bottom-10 right-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-purple-900/20 to-pink-900/30"></div>
+        <div className="absolute w-96 h-96 rounded-full bg-blue-500 filter blur-[150px] opacity-20 top-10 left-10"></div>
+        <div className="absolute w-64 h-64 rounded-full bg-purple-500 filter blur-[100px] opacity-20 bottom-10 right-10"></div>
         
         <div className="relative max-w-6xl mx-auto text-center">
           <div className="inline-block mb-6">
-            <div className="flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r from-red-500 to-orange-500 mb-4 mx-auto">
-              <Palette className="w-10 h-10 text-white" />
+            <div className="flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 mb-4 mx-auto">
+              <Users className="w-10 h-10 text-white" />
             </div>
           </div>
           
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-red-200 to-orange-200 bg-clip-text text-transparent tracking-tight">
-            Custom Aesthetic Generation
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent tracking-tight">
+            Music Compatibility
           </h1>
           <p className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto">
-            Transform your playlists into visual masterpieces with AI-generated artwork, creative naming, and aesthetic themes
+            Discover your music soulmates and build deeper connections through the universal language of sound
           </p>
 
           {/* Live Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6">
-              <div className="text-4xl font-bold bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent mb-2">
-                {animatedCount.toLocaleString()}+
+              <div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
+                {animatedStats.matches.toLocaleString()}+
               </div>
-              <div className="text-gray-400 text-sm">Aesthetics generated</div>
+              <div className="text-gray-400 text-sm">Compatibility matches found</div>
             </div>
             <div className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6">
-              <div className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent mb-2">
-                ∞
+              <div className="text-4xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent mb-2">
+                {animatedStats.compatibility}%
               </div>
-              <div className="text-gray-400 text-sm">Unique combinations</div>
+              <div className="text-gray-400 text-sm">Average compatibility score</div>
             </div>
             <div className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6">
               <div className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
-                97%
+                {animatedStats.connections.toLocaleString()}+
               </div>
-              <div className="text-gray-400 text-sm">User satisfaction rate</div>
+              <div className="text-gray-400 text-sm">Musical connections made</div>
             </div>
           </div>
         </div>
@@ -204,118 +154,122 @@ const CustomAestheticPage = () => {
       {/* Main Content */}
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
-          {/* Your Playlists */}
-          <div className="mb-20">
-            <div className="flex items-center justify-between mb-12">
-              <h2 className="text-4xl font-bold">Your Playlists</h2>
-              <button className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-3 rounded-full font-medium hover:shadow-lg transition-all">
-                Import More Playlists
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {playlists.map((playlist) => (
-                <div key={playlist.id} className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6 hover:bg-white/10 transition-all group">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <h3 className="font-bold text-xl mb-2">{playlist.name}</h3>
-                      <div className="text-sm text-gray-400 space-y-1">
-                        <div>{playlist.tracks} tracks • {playlist.duration}</div>
-                        <div className="flex items-center space-x-2">
-                          <span className="px-2 py-1 bg-orange-500/20 border border-orange-500/30 rounded text-xs">
-                            {playlist.mood}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mb-4">
-                    <h4 className="text-sm font-semibold text-gray-400 mb-2">Genres</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {playlist.genres.map((genre) => (
-                        <span key={genre} className="px-2 py-1 bg-gray-700 rounded text-xs">
-                          {genre}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <button 
-                    onClick={() => handleGenerateAesthetic(playlist)}
-                    className="w-full bg-gradient-to-r from-red-500 to-orange-500 text-white py-3 px-4 rounded-xl font-medium hover:shadow-lg transition-all flex items-center justify-center space-x-2"
-                  >
-                    <Wand2 className="w-4 h-4" />
-                    <span>Generate Aesthetic</span>
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Aesthetic Templates */}
-          <div className="mb-20">
-            <h2 className="text-4xl font-bold mb-12">Aesthetic Templates</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {aestheticTemplates.map((template) => (
-                <div 
-                  key={template.id}
-                  className={`relative rounded-2xl overflow-hidden border-2 transition-all cursor-pointer ${
-                    activeAesthetic === template.id ? 'border-orange-500' : 'border-white/10'
+          {/* Tab Navigation */}
+          <div className="flex justify-center mb-12">
+            <div className="bg-white/5 backdrop-blur rounded-full border border-white/10 p-2 inline-flex">
+              {[
+                { id: 'discover', label: 'Discover', icon: Zap },
+                { id: 'matches', label: 'My Matches', icon: Heart },
+                { id: 'playlists', label: 'Shared Playlists', icon: Music }
+              ].map(({ id, label, icon: Icon }) => (
+                <button
+                  key={id}
+                  onClick={() => setActiveTab(id)}
+                  className={`flex items-center space-x-2 px-6 py-3 rounded-full transition-all ${
+                    activeTab === id
+                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white'
+                      : 'text-gray-400 hover:text-white'
                   }`}
-                  onClick={() => setActiveAesthetic(template.id)}
                 >
-                  <div className={`h-48 ${getAestheticGradient(template.id)} flex items-center justify-center text-6xl`}>
-                    {template.preview}
-                  </div>
-                  <div className="p-6 bg-white/5 backdrop-blur">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-bold text-lg">{template.name}</h3>
-                      <span className="text-xs px-2 py-1 bg-gray-700 rounded">{template.style}</span>
-                    </div>
-                    <p className="text-gray-400 text-sm">{template.description}</p>
-                  </div>
-                </div>
+                  <Icon className="w-4 h-4" />
+                  <span className="font-medium">{label}</span>
+                </button>
               ))}
             </div>
           </div>
 
-          {/* AI Generation Studio */}
-          {generatingAesthetic && selectedPlaylist && (
-            <div className="mb-20">
-              <div className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-8">
-                <div className="text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-red-500 to-orange-500 mb-4 animate-pulse">
-                    <Sparkles className="w-8 h-8 text-white" />
+          {/* Discover Tab */}
+          {activeTab === 'discover' && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              <div>
+                <h2 className="text-3xl font-bold mb-8">How It Works</h2>
+                <div className="space-y-6">
+                  {[
+                    {
+                      step: 1,
+                      title: "Analyze Your Music DNA",
+                      description: "Our AI analyzes your listening patterns, favorite genres, artists, and emotional preferences to create your unique music profile.",
+                      icon: "🧬"
+                    },
+                    {
+                      step: 2,
+                      title: "Find Compatible Matches",
+                      description: "Advanced algorithms compare your music DNA with millions of other users to find those with complementary tastes.",
+                      icon: "🔍"
+                    },
+                    {
+                      step: 3,
+                      title: "Connect & Collaborate",
+                      description: "Start conversations, share playlists, and discover new music together with your compatibility matches.",
+                      icon: "🤝"
+                    }
+                  ].map(({ step, title, description, icon }) => (
+                    <div key={step} className="flex items-start space-x-4 p-6 bg-white/5 backdrop-blur rounded-2xl border border-white/10">
+                      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
+                        {step}
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold mb-2 flex items-center">
+                          <span className="mr-2">{icon}</span>
+                          {title}
+                        </h3>
+                        <p className="text-gray-400">{description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h2 className="text-3xl font-bold mb-8">Your Music Profile</h2>
+                <div className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-8">
+                  <div className="text-center mb-8">
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center text-black font-bold text-2xl mx-auto mb-4">
+                      YOU
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2">Your Musical Identity</h3>
+                    <p className="text-gray-400">Eclectic Explorer with Indie Roots</p>
                   </div>
-                  <h3 className="text-2xl font-bold mb-4">Generating Aesthetic for "{selectedPlaylist.name}"</h3>
-                  <p className="text-gray-400 mb-8">AI is analyzing your music and creating the perfect visual identity...</p>
-                  
-                  <div className="max-w-md mx-auto">
-                    <div className="flex justify-between text-sm text-gray-400 mb-2">
-                      <span>Analyzing music patterns</span>
-                      <span>Complete</span>
+
+                  <div className="space-y-6">
+                    <div>
+                      <h4 className="text-lg font-semibold mb-3 flex items-center">
+                        <Music className="w-5 h-5 mr-2 text-blue-400" />
+                        Top Genres
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {["Indie Rock", "Alternative", "Electronic", "Ambient", "Folk"].map((genre) => (
+                          <span key={genre} className="px-3 py-1 bg-blue-500/20 border border-blue-500/30 rounded-full text-sm">
+                            {genre}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                    <div className="w-full bg-gray-700 rounded-full h-2 mb-4">
-                      <div className="bg-gradient-to-r from-red-500 to-orange-500 h-2 rounded-full w-full animate-pulse"></div>
-                    </div>
-                    
-                    <div className="space-y-2 text-left">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                        <span className="text-sm text-gray-300">Mood detection: {selectedPlaylist.mood}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                        <span className="text-sm text-gray-300">Color palette generation</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-                        <span className="text-sm text-gray-300">Typography selection</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
-                        <span className="text-sm text-gray-300">Visual elements composition</span>
+
+                    <div>
+                      <h4 className="text-lg font-semibold mb-3 flex items-center">
+                        <Star className="w-5 h-5 mr-2 text-yellow-400" />
+                        Listening Traits
+                      </h4>
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-400">Adventurous</span>
+                          <div className="w-24 h-2 bg-gray-700 rounded-full">
+                            <div className="w-20 h-2 bg-gradient-to-r from-green-400 to-blue-400 rounded-full"></div>
+                          </div>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-400">Nostalgic</span>
+                          <div className="w-24 h-2 bg-gray-700 rounded-full">
+                            <div className="w-16 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
+                          </div>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-400">Mood-Driven</span>
+                          <div className="w-24 h-2 bg-gray-700 rounded-full">
+                            <div className="w-22 h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"></div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -324,163 +278,139 @@ const CustomAestheticPage = () => {
             </div>
           )}
 
-          {/* Generated Aesthetics Gallery */}
-          <div className="mb-20">
-            <div className="flex items-center justify-between mb-12">
-              <h2 className="text-4xl font-bold">Your Generated Aesthetics</h2>
-              <div className="flex items-center space-x-4">
-                <button className="p-3 bg-white/10 rounded-full hover:bg-white/20 transition-all">
-                  <RefreshCw className="w-5 h-5" />
-                </button>
-                <button className="p-3 bg-white/10 rounded-full hover:bg-white/20 transition-all">
-                  <Eye className="w-5 h-5" />
+          {/* Matches Tab */}
+          {activeTab === 'matches' && (
+            <div>
+              <div className="flex justify-between items-center mb-8">
+                <h2 className="text-3xl font-bold">Your Compatibility Matches</h2>
+                <button className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-full font-medium hover:shadow-lg transition-all">
+                  Find More Matches
                 </button>
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {generatedAesthetics.map((aesthetic, index) => (
-                <div key={index} className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 overflow-hidden hover:bg-white/10 transition-all group">
-                  <div className="h-48 bg-gradient-to-br from-purple-900 via-pink-900 to-red-900 flex items-center justify-center text-6xl relative">
-                    {aesthetic.cover}
-                    <div className="absolute inset-0 bg-black/20"></div>
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <h3 className="font-bold text-white text-lg">{aesthetic.playlistName}</h3>
-                      <p className="text-white/80 text-sm">{aesthetic.aesthetic}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="p-6">
-                    <div className="space-y-3 mb-4">
-                      <div className="flex justify-between">
-                        <span className="text-gray-400 text-sm">Colors:</span>
-                        <span className="text-white text-sm">{aesthetic.colors}</span>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {compatibilityMatches.map((match) => (
+                  <div key={match.id} className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6 hover:bg-white/10 transition-all group">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-2xl">
+                          {match.avatar}
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-lg">{match.name}</h3>
+                          <div className="flex items-center space-x-2">
+                            <div className={`w-2 h-2 rounded-full ${match.status === 'online' ? 'bg-green-400' : match.status === 'listening' ? 'bg-blue-400' : 'bg-gray-400'}`}></div>
+                            <span className="text-sm text-gray-400 capitalize">{match.status}</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-400 text-sm">Font:</span>
-                        <span className="text-white text-sm">{aesthetic.font}</span>
+                      <div className={`px-3 py-1 rounded-full border ${getCompatibilityBg(match.compatibility)}`}>
+                        <span className={`font-bold ${getCompatibilityColor(match.compatibility)}`}>
+                          {match.compatibility}%
+                        </span>
                       </div>
                     </div>
-                    
+
                     <div className="mb-4">
-                      <h4 className="text-sm font-semibold text-gray-400 mb-2">Elements</h4>
+                      <h4 className="text-sm font-semibold text-gray-400 mb-2">Shared Genres</h4>
                       <div className="flex flex-wrap gap-1">
-                        {aesthetic.elements.map((element) => (
-                          <span key={element} className="px-2 py-1 bg-orange-500/20 border border-orange-500/30 rounded text-xs">
-                            {element}
+                        {match.sharedGenres.slice(0, 3).map((genre) => (
+                          <span key={genre} className="px-2 py-1 bg-gray-700 rounded text-xs">
+                            {genre}
                           </span>
                         ))}
                       </div>
                     </div>
 
+                    <div className="mb-6">
+                      <h4 className="text-sm font-semibold text-gray-400 mb-2">Top Artists</h4>
+                      <div className="space-y-1">
+                        {match.topArtists.slice(0, 2).map((artist) => (
+                          <div key={artist} className="text-sm text-gray-300">{artist}</div>
+                        ))}
+                      </div>
+                    </div>
+
                     <div className="flex space-x-2">
-                      <button className="flex-1 bg-gradient-to-r from-red-500 to-orange-500 text-white py-2 px-4 rounded-lg font-medium hover:shadow-lg transition-all flex items-center justify-center space-x-2">
-                        <Save className="w-4 h-4" />
-                        <span>Apply</span>
-                      </button>
-                      <button className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-all">
-                        <Download className="w-4 h-4" />
+                      <button className="flex-1 bg-gradient-to-r from-blue-500 to-purple-500 text-white py-2 px-4 rounded-lg font-medium hover:shadow-lg transition-all">
+                        Connect
                       </button>
                       <button className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-all">
                         <Share2 className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Customization Controls */}
-          <div className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-8">
-            <h2 className="text-3xl font-bold mb-8">Advanced Customization</h2>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-xl font-bold mb-6 flex items-center">
-                  <Palette className="w-6 h-6 mr-2 text-red-400" />
-                  Color Schemes
-                </h3>
-                <div className="grid grid-cols-4 gap-3">
-                  {[
-                    'bg-gradient-to-r from-red-500 to-pink-500',
-                    'bg-gradient-to-r from-blue-500 to-purple-500',
-                    'bg-gradient-to-r from-green-500 to-teal-500',
-                    'bg-gradient-to-r from-yellow-500 to-orange-500',
-                    'bg-gradient-to-r from-purple-500 to-indigo-500',
-                    'bg-gradient-to-r from-pink-500 to-rose-500',
-                    'bg-gradient-to-r from-cyan-500 to-blue-500',
-                    'bg-gradient-to-r from-orange-500 to-red-500'
-                  ].map((gradient, index) => (
-                    <button
-                      key={index}
-                      className={`w-full h-12 rounded-lg ${gradient} hover:scale-105 transition-transform`}
-                    />
-                  ))}
-                </div>
+          {/* Shared Playlists Tab */}
+          {activeTab === 'playlists' && (
+            <div>
+              <div className="flex justify-between items-center mb-8">
+                <h2 className="text-3xl font-bold">Collaborative Playlists</h2>
+                <button className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-full font-medium hover:shadow-lg transition-all">
+                  Create Playlist
+                </button>
               </div>
 
-              <div>
-                <h3 className="text-xl font-bold mb-6 flex items-center">
-                  <Type className="w-6 h-6 mr-2 text-orange-400" />
-                  Typography Styles
-                </h3>
-                <div className="space-y-3">
-                  {[
-                    { name: 'Modern Sans', style: 'font-sans font-bold' },
-                    { name: 'Elegant Serif', style: 'font-serif font-medium' },
-                    { name: 'Tech Mono', style: 'font-mono font-bold' },
-                    { name: 'Artistic Script', style: 'font-sans italic font-semibold' }
-                  ].map((font) => (
-                    <button
-                      key={font.name}
-                      className={`w-full p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all text-left ${font.style}`}
-                    >
-                      {font.name} - Sample Text
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {sharedPlaylists.map((playlist, index) => (
+                  <div key={index} className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6 hover:bg-white/10 transition-all group">
+                    <div className="flex items-center space-x-4 mb-4">
+                      <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center text-2xl">
+                        {playlist.cover}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-bold text-lg">{playlist.title}</h3>
+                        <p className="text-gray-400 text-sm">with {playlist.collaborator}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center mb-4">
+                      <div className="flex items-center space-x-4 text-sm text-gray-400">
+                        <span>{playlist.tracks} tracks</span>
+                        <span>{playlist.plays.toLocaleString()} plays</span>
+                      </div>
+                    </div>
+
+                    <button className="w-full bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg font-medium transition-all flex items-center justify-center space-x-2">
+                      <Play className="w-4 h-4" />
+                      <span>Play Playlist</span>
                     </button>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             </div>
-
-            <div className="mt-8 pt-8 border-t border-white/10">
-              <div className="flex justify-center space-x-4">
-                <button className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-8 py-3 rounded-full font-medium hover:shadow-lg transition-all">
-                  Generate New Aesthetic
-                </button>
-                <button className="bg-white/10 text-white px-8 py-3 rounded-full font-medium hover:bg-white/20 transition-all">
-                  Save Preferences
-                </button>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
       {/* Features Section */}
       <section className="py-20 px-6 bg-zinc-900/50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-16">AI-Powered Creative Features</h2>
+          <h2 className="text-4xl font-bold text-center mb-16">Why Music Compatibility Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                icon: <Image className="w-8 h-8" />,
-                title: "Smart Cover Art",
-                description: "AI generates unique artwork that reflects your playlist's musical DNA and emotional tone."
+                icon: <Award className="w-8 h-8" />,
+                title: "Proven Algorithm",
+                description: "Our compatibility scoring uses advanced machine learning trained on millions of music preferences."
               },
               {
-                icon: <Type className="w-8 h-8" />,
-                title: "Creative Naming",
-                description: "Discover perfect playlist names that capture the essence and vibe of your music collection."
+                icon: <TrendingUp className="w-8 h-8" />,
+                title: "Real-Time Updates",
+                description: "Your compatibility scores update as your music taste evolves, ensuring fresh matches."
               },
               {
-                icon: <Sparkles className="w-8 h-8" />,
-                title: "Mood Visualization",
-                description: "Transform musical emotions into stunning visual themes with dynamic color palettes."
+                icon: <Heart className="w-8 h-8" />,
+                title: "Meaningful Connections",
+                description: "Users report 89% satisfaction rate in finding genuine musical connections."
               }
             ].map((feature, index) => (
               <div key={index} className="text-center p-6">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-red-500 to-orange-500 text-white mb-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white mb-4">
                   {feature.icon}
                 </div>
                 <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
@@ -494,12 +424,12 @@ const CustomAestheticPage = () => {
       {/* CTA Section */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-6">Transform Your Playlists Today</h2>
+          <h2 className="text-4xl font-bold mb-6">Ready to Find Your Music Soulmate?</h2>
           <p className="text-xl text-gray-400 mb-10">
-            Join thousands of creators who've elevated their music experience with AI-generated aesthetics.
+            Join thousands of music lovers who've discovered meaningful connections through our compatibility matching.
           </p>
-          <button className="bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold text-lg py-4 px-12 rounded-full transition-all hover:scale-105 hover:shadow-lg hover:shadow-red-500/30">
-            Start Creating Now
+          <button className="bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold text-lg py-4 px-12 rounded-full transition-all hover:scale-105 hover:shadow-lg hover:shadow-blue-500/30">
+            Start Matching Now
           </button>
         </div>
       </section>
@@ -507,4 +437,4 @@ const CustomAestheticPage = () => {
   );
 };
 
-export default CustomAestheticPage;
+export default MusicCompatibilityPage;
