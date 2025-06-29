@@ -1,4 +1,4 @@
-# Spotifymax
+# Spotifymax [ONHOLD]
 A Spotify Companion app
 
 ## Features:
